@@ -3,9 +3,9 @@ const ctx = canvas.getContext("2d"); //"kreslení věci"
 
 const snakeSize = 30;
 
-let snakeSpeed = 5;
+let snakeSpeed = 30;
 let snakePosX = 0;
-let snakePosY = canvas.height / 2 - snakeSize / 2;
+let snakePosY = canvas.height/2;
 
 let velocityX = 1;
 let velocityY = 0;
@@ -13,12 +13,15 @@ let velocityY = 0;
 const titleCountX = canvas.width / snakeSize;
 const titleCountY = (canvas.height / snakeSize) * 2;
 
+let foodPosX = 150;
+let foodPosY = 120;
+
 function gameLoop(){
     drawEverything();
     moveStuff();
 
     //requestAnimationFrame(gameLoop); //loop - velký frame rate
-    setTimeout(gameLoop, 1000 / 15); //spuštění po určitém čase
+    setTimeout(gameLoop, 1000 / 8); //spuštění po určitém čase
 }
 gameLoop();
 
@@ -26,17 +29,24 @@ function moveStuff(){
     snakePosX += snakeSpeed * velocityX; //pohyb hada
     snakePosY += snakeSpeed * velocityY; //pohyb hada
 
-    if(snakePosX > canvas.width){ //vrácení hada na začátek
+    //kolize se stěnou
+    if(snakePosX > (canvas.width - snakeSize)){ //vrácení hada na začátek
         snakePosX = 0;
     }
-    if(snakePosX < -snakeSize){ //vrácení hada na začátek
+    if(snakePosX < 0){ //vrácení hada na začátek
         snakePosX = canvas.width;
     }
-    if(snakePosY > canvas.height){ //vrácení hada na začátek
+    if(snakePosY > (canvas.height - snakeSize)){ //vrácení hada na začátek
         snakePosY = 0;
     }
-    if(snakePosY < -snakeSize){ //vrácení hada na začátek
+    if(snakePosY < 0){ //vrácení hada na začátek
         snakePosY = canvas.height;
+    }
+
+    //kolize s jídlem
+    if (snakePosX === foodPosX && snakePosY === foodPosY){
+        foodPosX = Math.floor(Math.random() * titleCountX) * snakeSize;
+        foodPosY = Math.floor(Math.random() * titleCountY/2) * snakeSize;
     }
 }
 
@@ -44,6 +54,9 @@ function drawEverything(){
     rectangle("#ffbf00", 0, 0, canvas.width, canvas.height); //pozadí
     drawGrid();
     rectangle("black", snakePosX, snakePosY, snakeSize, snakeSize/2); //had
+
+    //food
+    rectangle('black', foodPosX, foodPosY, snakeSize, snakeSize/2);
 }
 
 function rectangle(color, x, y, width, height){
