@@ -18,3 +18,11 @@ canvas {
     text-align: center;
     border: 10px solid #f7347a;
 }
+
+h1 {
+    position: absolute;
+    bottom: 1%;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 4rem;
+    font-weight: bold;
+}

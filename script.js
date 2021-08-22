@@ -1,5 +1,6 @@
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext("2d"); //"kreslení věci"
+const title = document.querySelector("h1"); //skore hada
 
 const snakeSize = 30;
 
@@ -13,8 +14,10 @@ let velocityY = 0;
 const titleCountX = canvas.width / snakeSize;
 const titleCountY = (canvas.height / snakeSize) * 2;
 
-let foodPosX = 150;
-let foodPosY = 120;
+let foodPosX = 0;
+let foodPosY = 0;
+
+let skore = 0;
 
 function gameLoop(){
     drawEverything();
@@ -23,6 +26,7 @@ function gameLoop(){
     //requestAnimationFrame(gameLoop); //loop - velký frame rate
     setTimeout(gameLoop, 1000 / 8); //spuštění po určitém čase
 }
+resetFood();
 gameLoop();
 
 function moveStuff(){
@@ -45,8 +49,8 @@ function moveStuff(){
 
     //kolize s jídlem
     if (snakePosX === foodPosX && snakePosY === foodPosY){
-        foodPosX = Math.floor(Math.random() * titleCountX) * snakeSize;
-        foodPosY = Math.floor(Math.random() * titleCountY/2) * snakeSize;
+        title.textContent = ++skore; //změna skore (nejdřív zvedne o 1)
+        resetFood();
     }
 }
 
@@ -100,4 +104,9 @@ function drawGrid(){
             rectangle("white", snakeSize * i, (snakeSize * j)/2, snakeSize - 1, (snakeSize/2) - 1);
         }
     }
+}
+
+function resetFood(){
+    foodPosX = Math.floor(Math.random() * titleCountX) * snakeSize;
+    foodPosY = Math.floor(Math.random() * titleCountY/2) * snakeSize;
 }
